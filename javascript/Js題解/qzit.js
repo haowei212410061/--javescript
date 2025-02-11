@@ -1,7 +1,3 @@
-
-
-
-
 const string1 = "hello world";
 string1.indexOf(" ");
 

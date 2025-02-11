@@ -1,7 +1,13 @@
 /**
  * 合併的排序演算法
  * divide and conquer: 把大的問題分割成小的問題去解決
- *
+ * 1. mergeSort function: 每次執行時 都return merge function
+ * 2. 檢查是否達到終止條件(arr.length === 1)
+ * 3. 如果沒有達到終止條件 就會一直往下做分割
+ * 4. 達到終止條件後 就會往回執行merge function
+ * 5. 切記再執行mergeSort function的時候 如果沒有達到終止條件 不會執行merge function
+ * 
+ *  
  */
 
 function merge(a, b) {
@@ -42,3 +48,4 @@ function mergeSort(arr) {
 
   return merge(mergeSort(left), mergeSort(right))
 }
+

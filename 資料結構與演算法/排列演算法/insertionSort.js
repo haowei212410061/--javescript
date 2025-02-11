@@ -4,7 +4,7 @@
 let unsorted = [13, -3, 18, 6, 22, 1, -5]
 
 function insertionSort(arr) {
-  for (let j = 1; j <= arr.lengt - 1; j++) {
+  for (let j = 1; j <= arr.length - 1; j++) {
     let key = arr[j]
     i = j - 1
     while (j >= 0 && arr[i] > key) {
