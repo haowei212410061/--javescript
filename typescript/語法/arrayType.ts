@@ -1,13 +1,16 @@
 /* 陣列類型
  * 一旦定義了一個特定類型的陣列 typescript將禁止向陣列添加不兼容的數據類型
  */
-let arrayName: string[]; //聲明一個字符串陣列
+const arrayName: string[] = []//聲明一個字符串陣列
 /**添加多個字符串 */
 arrayName[0] = "john";
 arrayName[1] = "amy";
 
 /**也可以用陣列的方法：push */
 arrayName.push("john");
+
+//代表這個陣列可以存放兩種不同類型的資料型態
+const multiplyDataType:(number|string)[] = ["1",1,"2",2]
 
 /*不允許出現多種類型 */
 let fibonacci: number[] = [1, 2, 3, 4, 5];
@@ -16,7 +19,7 @@ let fibonacci: number[] = [1, 2, 3, 4, 5];
 let testlist: number[] = [1, 2, 3];
 //testlist.push("b"); 會報錯 定義數組時限制添加近數組的資料類型為number
 
-/*數祖泛型 */
+/*陣列泛型 */
 let list1: Array<number> = [1, 2, 4, 5, 6];
 
 /*用接口表示數組 */

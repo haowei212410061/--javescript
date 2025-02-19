@@ -34,19 +34,44 @@ let mySum: (x: number, y: number) => number = function (
   return x + y;
 };
 
-/**將函數分配給addnumber變量 */
-let addnumber1 = function (x: number, y: number) {
-  return x + y;
-};
+/**函式型別註記的四種宣告方式 */
+let addition:(a:number,b:number) => number = function (a,b){
+  return a+b
+}
 
-let add1: (x: number, y: number) => number = function (x: number, y: number) {
-  return x + y;
-};
+let addition1 = function(a:number,b:number):number{
+  return a+b
+}
+
+function addition2(a:number,b:number):number{
+  return a+b
+}
+
+let addition3 = function(a,b){
+  return a+b
+}as(a:number,b:number)=>number
+
+
+//就算沒有寫return的類型 typescript也會推論出這個函數返回的資料型態
+function returnNumber(){
+  return 43
+}
+
+//像是這種沒有回傳值的函數 typescript在編譯的時候 如果在函式內沒有看到return的敘述式 會判定這個函式的輸出型別為void
+function sayHello(){
+  console.log("hello")
+}
+//結果會如同上一個sayHello function一樣 輸出型別都是void 都是無意義的
+function noReturnFunc(){
+  return
+}
+
+
 
 /**
  * 使一個函數的參數變成一個可選參數
  * 使一個函數的參數變成一個可選項 在該名稱後使用'?'
- * 可選參數必須在必須參數的後面
+ * 可選參數必須連續性的被宣告在函數參數的末端 如果有多個參數 必須將可選參數的位置放在最後一個
  */
 
 function multiply(a: number, b: number, c?: number): number {
@@ -55,6 +80,21 @@ function multiply(a: number, b: number, c?: number): number {
     return a * b * c;
   }
   return a * b;
+}
+
+function increment(input1:number, input2?:number):number{
+  return input1 + (input2 ? input2 : input1)
+}
+
+function increment1(input1:number,input2?:number):number{
+  //if input2 === null or input === undefined 則指派數字1
+  const value = input2 ?? 1
+  return input1 + value
+}
+
+//使用預設參數 如果input2 === null or undefined 則input2 = 1
+function increment2(input1:number,input2:number = 1){
+  return input1 + input2
 }
 
 /**
@@ -111,7 +151,7 @@ function getDay(
  */
 function getTotal(...numbers: number[]): number {
   let total = 0;
-  numbers1.forEach((num) => (total += num));
+  numbers.forEach((num) => (total += num));
   return total;
 }
 console.log(getTotal()); // 0
@@ -141,6 +181,7 @@ function addfunction(a: number | string, b: number | string): number | string {
   if (typeof a === "string" && typeof b === "string") {
     return a + b;
   }
+  return 0
 }
 
 /**

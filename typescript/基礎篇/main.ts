@@ -132,6 +132,40 @@ const greedHuman:(someone:string) => void = function(someone){
     console.log(someone)
 }
 
+/**函式型別註記的四種宣告方式 */
+let addition:(a:number,b:number) => number = function (a,b){
+    return a+b
+}
+
+let addition1 = function(a:number,b:number):number{
+    return a+b
+}
+
+function addition2(a:number,b:number):number{
+    return a+b
+}
+
+let addition3 = function(a,b){
+    return a+b
+}as(a:number,b:number)=>number
+
+
+//就算沒有寫return的類型 typescript也會推論出這個函數返回的資料型態
+function returnNumber(){
+    return 43
+}
+
+//像是這種沒有回傳值的函數 typescript在編譯的時候 如果在函式內沒有看到return的敘述式 會判定這個函式的輸出型別為void
+function sayHello(){
+    console.log("hello")
+}
+//結果會如同上一個sayHello function一樣 輸出型別都是void 都是無意義的
+function noReturnFunc(){
+    return
+}
+
+
+
 //類別創建的實體 使用型別化名
 const today:Date = new Date('2025-01-06')
 
@@ -192,3 +226,46 @@ interface UserInfo1 {
   };
   
   delete userinfo1.age;
+  
+  type PersonalInfo = {
+    readonly name:string;
+    readonly age : number;
+    readonly interest: string[];
+  }
+
+  //宣告一個classMate的json物件內的屬性都為唯讀屬性
+  let ClassMateInfo:Readonly<PersonalInfo> = {
+    name:"Max",
+    age:18,
+    interest:["basketball",'videoGame']
+  }
+
+  /**範例:在react中統一管理狀態以及操作狀態
+   */
+
+  type NewItem = {
+    type:"NEW_ITEM"
+    payload:{title:string}
+  }
+  type RemoveItem = {
+    type:"REMOVE_ITEM"
+    payload:{id:number} 
+  }
+
+  type CompleteItem = {
+    type:"COMPLETE_ITEM"
+    payload:{id:number}
+  }
+  type UndoItem = {
+    type:"UNDO_ITEM"
+    payload:{id:number}
+  }
+
+  type Action =(NewItem | RemoveItem | CompleteItem |UndoItem)
+  
+  const CompleteAction:Action = {
+    type:'COMPLETE_ITEM',
+    payload:{id:1}
+  }
+    
+  

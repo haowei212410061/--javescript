@@ -6,7 +6,6 @@
  * 類型是一個標籤 描述了一個值的屬性和方法
  */
 
-import { truncate } from "fs";
 
 /**typescript 基礎類型*/
 let valu: string = "white";
@@ -127,10 +126,15 @@ console.log(number22.length);
 number22 = 8;
 //console.log(number22.length); 這行會報錯
 
-/**宣告元組： */
+/**宣告元組：
+ * 特性1:無法經由推論而來
+ * 特性2:元組中的元素個數限制以及固定的對應型別順序
+ * 特性3:在中括號中指派元素的型別
+*/
 /**元組中的元素數量是固定的 */
+/**順序很重要 */
 let tuple: [number, string, boolean] = [1, "hello", true];
-
+const tup:[boolean,string,object] = [true,"str",{obj:"isObject",str:"str"}]
 /**可選的元組
  * 问号(?)后缀指定可选的元素
  */
