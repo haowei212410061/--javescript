@@ -1,85 +1,3 @@
-/**
- * enum枚舉類型:一組命名的常量值
- * 定義枚舉：
- * 1. 使用enum關鍵字 後跟著枚舉的名稱
- * 2. 為枚舉定義常量值
- * enum name {constant1,constant2}
- *
- * 使用枚舉的時機：
- * 1. 有一組密切相關的固定值
- * 2. 而且這些值在編譯時就已經知道了
- *
- * 總結：
- * 1. 在內部 枚舉是一個javascript對象 在枚舉定義中聲明了命名屬性
- * 2. 有一組密切相關的固定值
- */
-/**範例 */
-enum Month {
-  jan,
-  feb,
-  mar,
-  apr,
-  may,
-  jun,
-  jul,
-  aug,
-  sep,
-  oct,
-  nov,
-  dec,
-}
-/**聲明一個使用Ｍonth枚舉作為month參數類型的函數 */
-function isItSummer(month: Month) {
-  //該函數的參數是Month枚舉
-  let isSummer: boolean;
-  switch (month) {
-    case Month.jun:
-    case Month.jul:
-    case Month.aug:
-      isSummer = true;
-      break;
-    default:
-      isSummer = false;
-      break;
-  }
-  return isSummer;
-}
-
-/**向函數傳遞一個數字參數 而不是用Month枚舉 可以正確執行 */
-var Month1;
-(function (Month) {
-  Month[(Month["Jan"] = 0)] = "Jan";
-  Month[(Month["Feb"] = 1)] = "Feb";
-  Month[(Month["Mar"] = 2)] = "Mar";
-  Month[(Month["Apr"] = 3)] = "Apr";
-  Month[(Month["May"] = 4)] = "May";
-  Month[(Month["Jun"] = 5)] = "Jun";
-  Month[(Month["Jul"] = 6)] = "Jul";
-  Month[(Month["Aug"] = 7)] = "Aug";
-  Month[(Month["Sep"] = 8)] = "Sep";
-  Month[(Month["Oct"] = 9)] = "Oct";
-  Month[(Month["Nov"] = 10)] = "Nov";
-  Month[(Month["Dec"] = 11)] = "Dec";
-})(Month || (Month1 = {})); //若未定義Month枚舉 則會將Month1初始化為空對象 為枚舉建立一個新的空間
-
-/**範例2: 為審批狀態使用一個枚舉 */
-enum AppeovalStatus {
-  draft,
-  submitted,
-  approved,
-  rejected,
-}
-
-const request = {
-  id: 1,
-  name: "jon",
-  status: AppeovalStatus.draft,
-  description: "Please approve this request",
-};
-
-if (request.status === AppeovalStatus.approved) {
-  console.log("Send eamil to the applicant....");
-}
 
 /**
  * 類型別名：為一個現有的類型創建一個新的名稱
@@ -181,7 +99,7 @@ class supplier {
 type Business = Customer1 | supplier;
 
 function signContract(partner: Business): string {
-  let message: string;
+  let message: string = "";
   if (partner instanceof Customer1) {
     message = partner.isCreditAllowed()
       ? "Sign a new contract with the customer"
@@ -246,7 +164,7 @@ let InputA = <HTMLInputElement>document.querySelector('input[type="text"]');
 console.log(InputA.value);
 
 let aaa: typeA;
-let bbb = <typeBB>aaa;
+let bbb = <typeBB>aaa ;
 
 /*
  * 類型斷言：指示typescript編譯器將一個值作為一個指定的類型 使用as關鍵字

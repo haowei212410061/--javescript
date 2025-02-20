@@ -1,35 +1,4 @@
-/**
- * 原始型別:表現資料型態的最小單位
- * 如果使用let宣告變數 改變變數時 要遵守型別 不可以重新賦予變數不同型別的值
- * 任何變數在尚未賦予值的時候 型別為undefined
- */
-const num1:number = 1
-const str1:string = "john"
-let booleanType: false|true
-let meanEmpty:undefined
-let meanNothing:null
 
-let num2:number|undefined//先宣告變數
-console.log(num2)//直接使用的話 型別為undefined 如果沒有使用聯集 會報錯
-num2 = 123//指派值
-
-
-/**
- * 型別註記Annotation
- */
-var randomNumber:number = Math.random();
-var myName:String = "john"
-var subscribed:boolean = true; 
-
-/**
- * isPositive 檢查輸入值是否為正數
- * @param input:number 為輸入的數字
- * @output boolean
- */
-
-const isPositive3 = (input:number) => {
-    return input > 0
-}
 
 /**
  * 將函數作為值 指派到變數內
@@ -121,69 +90,9 @@ const info:{
     interest:['drawing','programming']
 }
 
-//陣列型別
-const data:number[] = [1,2,3]
-
-//函式型別
-function greet(message:string):void{
-    console.log(message)
-}
-const greedHuman:(someone:string) => void = function(someone){
-    console.log(someone)
-}
-
-/**函式型別註記的四種宣告方式 */
-let addition:(a:number,b:number) => number = function (a,b){
-    return a+b
-}
-
-let addition1 = function(a:number,b:number):number{
-    return a+b
-}
-
-function addition2(a:number,b:number):number{
-    return a+b
-}
-
-let addition3 = function(a,b){
-    return a+b
-}as(a:number,b:number)=>number
-
-
-//就算沒有寫return的類型 typescript也會推論出這個函數返回的資料型態
-function returnNumber(){
-    return 43
-}
-
-//像是這種沒有回傳值的函數 typescript在編譯的時候 如果在函式內沒有看到return的敘述式 會判定這個函式的輸出型別為void
-function sayHello(){
-    console.log("hello")
-}
-//結果會如同上一個sayHello function一樣 輸出型別都是void 都是無意義的
-function noReturnFunc(){
-    return
-}
-
-
 
 //類別創建的實體 使用型別化名
 const today:Date = new Date('2025-01-06')
-
-
-/**
- * javascript中沒有的型別:元組(tuple) and 列舉(enum)
- * 元組有元素數量的限制 內部所存取的元素的順序以及各個元素對應的型別都有嚴格規定
- * 列舉是將相似性質的資料 匯聚成一種型別
-*/
-
-//元組ex
-const food:[number,string,boolean] = [1,'apple',true]
-const food1:(number|string|boolean)[] = [1,'apple',true]
-
-//列舉
-enum Color {Red,Blue,Green}
-const color:Color = Color.Red
-
 
 /**
  * 泛型:型別自身參數化後表現出來的特殊型別
@@ -200,72 +109,5 @@ let numOrString:number|string
 //聯集型別:數字也是字串
 let numOrString1:number&string
 
-//型別化名(Type alias)
-type UserInfo = {
-    name:string,
-    age:number,
-    interest:string[]
-}
-const userinfo:UserInfo = {
-    name:"john",
-    age:20,
-    interest:['apple','banana']
-}
 
-
-interface UserInfo1 {
-    name: string;
-    age?: number;//添加問號 代表這個屬性可以被忽略
-    readonly arr:string[]; //添加一個唯讀屬性:代表這個屬性只能讀取 不能覆寫
-  }
-  
-  let userinfo1: UserInfo1 = {
-    name: 'john',
-    age: 20,
-    arr:['a','b']
-  };
-  
-  delete userinfo1.age;
-  
-  type PersonalInfo = {
-    readonly name:string;
-    readonly age : number;
-    readonly interest: string[];
-  }
-
-  //宣告一個classMate的json物件內的屬性都為唯讀屬性
-  let ClassMateInfo:Readonly<PersonalInfo> = {
-    name:"Max",
-    age:18,
-    interest:["basketball",'videoGame']
-  }
-
-  /**範例:在react中統一管理狀態以及操作狀態
-   */
-
-  type NewItem = {
-    type:"NEW_ITEM"
-    payload:{title:string}
-  }
-  type RemoveItem = {
-    type:"REMOVE_ITEM"
-    payload:{id:number} 
-  }
-
-  type CompleteItem = {
-    type:"COMPLETE_ITEM"
-    payload:{id:number}
-  }
-  type UndoItem = {
-    type:"UNDO_ITEM"
-    payload:{id:number}
-  }
-
-  type Action =(NewItem | RemoveItem | CompleteItem |UndoItem)
-  
-  const CompleteAction:Action = {
-    type:'COMPLETE_ITEM',
-    payload:{id:1}
-  }
-    
   

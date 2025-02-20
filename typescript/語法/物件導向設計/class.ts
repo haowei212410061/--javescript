@@ -140,7 +140,7 @@ class SetAndGet {
 }
 
 let testSet = new SetAndGet();
-let inputAge: number;
+let inputAge: number = 0;
 if (inputAge > 0 && inputAge < 200) {
   testSet.age = inputAge;
 }
