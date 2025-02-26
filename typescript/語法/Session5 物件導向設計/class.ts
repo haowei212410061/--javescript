@@ -2,13 +2,16 @@
  * 類 class：是定義物件 設計物件的設計圖 是描述
  * 物件：是類別產生的實體 是實際上的執行者
  * 用於創建構造函數和原型繼承
+ * 類別在typescript中也是一種型別 繼承父類的子類 該子類的型別就是父類|子類
+ * 實例化一個類別 實例化出來的物件 該物件的型別就是對應的類別
+ * 判斷物件能不能被指派到某個被註記的變數裡面 是看類別的結構
  *
  */
 
 class Person {
-  ssn;
-  firstName;
-  lastName;
+  ssn: string; //這邊的變數是class person內部的變數與構造函數內的參數不同 所以下方要加入this關鍵字
+  firstName: string;
+  lastName: string;
 
   /**構造函數被明確定義並放置在類的內部 */
   /**typescript類為類的屬性和方法添加了類型註解 */
@@ -27,7 +30,7 @@ class Person {
  * 使用Person類 與 使用Person構造函數相同
  * 從Person類創建的物件person 稱為實例 而這過程稱為實例化
  */
-let person = new Person("101-12-204", "john", "duc");
+let person:Person = new Person("101-12-204", "john", "duc"); 
 console.log(person.getFullName);
 
 /**
@@ -85,7 +88,7 @@ class PersonPublic {
 }
 
 let TestPublic = new PersonPublic(1, "usd", "class1");
-console.log(TestPublic);
+console.log(TestPublic.Id);
 
 /**
  * protected修飾符
@@ -178,9 +181,11 @@ TestSet.age = 0;
 /**
  * 繼承：一個類可以重用另一個類的屬性和方法
  * 繼承屬性和方法的類被稱為子類 而其屬性和方法被繼承的類被稱為父類
+ * Protected狀態下 子類可以使用父類的的屬性及方法
+ * Private狀態下 子類"不可以"使用父類的屬性及方法
  */
 
-class Personal {
+class Per {
   constructor(private firstName: string, private lastName: string) {
     this.firstName = firstName;
     this.lastName = lastName;
@@ -200,7 +205,7 @@ class Personal {
  * 需要在Son類的構造函數中通過調用其父類的構造函數來初始化這些屬性
  * 在子類的構造函數中調用父類的構造函數 可以用super.methodInParentClass()語法
  */
-class Son extends Personal {
+class Son extends Per {
   constructor(firstName: string, lastName: string, private jobTitle: string) {
     super(firstName, lastName);
   }
@@ -210,7 +215,7 @@ class Son extends Personal {
   } //使用了super.methodInParentClass()語法調用了父類Personal的describe()方法
 }
 
-let son = new Son("josn", "doe", "developer");
+let son = new Son("json", "doe", "developer");
 console.log(son.getFullName()); //因為Son繼承了Personal類的屬性和方法 可以在Son對象上調用getFullName() and describe()
 console.log(son.describe());
 
@@ -221,6 +226,7 @@ console.log(son.describe());
 /**
  * 靜態屬性：是在一個類的所有實例中共享的
  * 聲明一個靜態屬性 使用static關鍵字
+ * 是一個類別本身的屬性或方法
  * 訪問靜態屬性：className.porpertyName語法
  */
 
@@ -266,15 +272,16 @@ class Student {
 
 /**
  * 抽象類：用於定義派生類擴展的通用行為 與普通類不同 抽象類不能直接實例化
+ * 抽象類是專門被設計用來被繼承的
  * 聲明一個抽象類 使用abstract關鍵字
  * 抽象方法不包含實現 僅定義了方法 而沒有實作 因此不能生成物件
- * 抽象方法必須在派生類中實現
+ * 抽象方法必須由繼承的類中實現
  */
 
 abstract class EmployeeProperty {
-  constructor(private firstName: string, private lastName: string) {}
+  constructor(private firstName: string, private lastName: string) { }
 
-  abstract getSalary(): number;
+  abstract getSalary(): number;//在抽象類中不定義抽象方法 而是由繼承的子類去實現這個方法
   get FullName(): string {
     return `${this.firstName}${this.lastName}`;
   }
@@ -312,4 +319,53 @@ class Contractor extends EmployeeProperty {
   getSalary(): number {
     return this.rate * this.hours;
   }
+}
+
+//範例:提款機
+
+type UserAcc = {
+  username: string
+  password: string
+  savings: number
+}
+
+
+class CashMachine {
+  private currentUser?: UserAcc
+
+  //這邊宣告Users是靜態類別成員 是因為如果沒有這樣宣告 每次創建一個新的CashMachine實例 都會再次初始化Users 未避免這種情況 才會這樣做
+  private static Users: UserAcc[] = [
+    { username: "max", password: "123456789", savings: 45600 },
+    { username: "amy", password: "123456789", savings: 25600 },
+    { username: "white", password: "123456789", savings: 15600 },
+  ]
+  
+
+  login(username: string, password: string): void {
+    for (let user of CashMachine.Users) {
+      if (user.username === username) {
+        if (user.password === password) {
+          this.currentUser = user
+          return;
+        }else{
+          throw new Error("password is wrong")
+        }
+      }
+    }
+    throw new Error("can't find this user")
+  }
+
+  logout():void{
+    this.currentUser = undefined
+  }
+
+
+  deposit(amount:number):void{
+    if(this.currentUser === undefined){
+      throw new Error("please login first")
+    }
+    this.currentUser.savings += amount
+  }
+
+
 }

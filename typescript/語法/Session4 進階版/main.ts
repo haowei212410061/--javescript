@@ -185,3 +185,95 @@ type exit1 = number | string
 type exit2 = number | boolean
 type exit3 = number | null
 type DiscriminatedUnion = exit1 | exit2 | exit3 //type DiscriminatedUnion = string | number | boolean | null
+
+
+/**型別駐防:根據聯集的各自類型有不同的處理方法 */
+/*
+  * 1. Array:建議用Array.isArray()方法檢測
+  * 2. 特殊數字NaN用"Number.isNaN"檢測
+  * 3. Infinity用"Number.isFinity"檢測
+ */
+function SaveAddition(input1:string|number,input2:string|number):number{
+  let saveInput:number
+  let saveInput2:number
+  if(typeof input1 === 'string'){ //typeof return "number" | "string" | "boolean" | "symbol" | "object" | "function"
+    saveInput = parseInt(input1,10);
+  }else{
+    saveInput = input1
+  }
+
+  if(typeof input2 === 'string'){
+    saveInput2 = parseInt(input2,10)
+  }else{
+    saveInput2 = input2
+  }
+
+  return saveInput + saveInput2
+}
+
+
+/**
+ * 通常物件不會用typeof來操作 而是用instanceof 這裡now是Date類別的實例 所以會用所屬的類別判斷
+ */
+const now = new Date();
+now instanceof Date; 
+
+
+/*交集複合*/
+/**
+ * 交集型別使用&符號代表(and)的意思
+ * 常用情境:JSON物件的交集複合 將兩個物件交集複合變成UserAccount型別 
+ * UserAccount必須要有PersonalInfo and AccountInfo的型別的屬性
+ */
+
+type PersonalInfo = {
+  name:string,
+  age:number,
+  interest:string[]
+}
+type AccountInfo = {
+  email:string,
+  username:string,
+  subscribed:boolean
+}
+type UserAccount = PersonalInfo & AccountInfo
+
+const user:UserAccount = {
+  name:"max",
+  age:20,
+  interest:["basketball",'videoGame'],
+  email:"email@gmail.com",
+  username:"max",
+  subscribed:true
+}
+
+/**Never型別 */
+/**
+ * 1. 只要程式執行不到結尾的地方就會自動推論Never型別
+ * 2. 只要型別本身不可能發生的時候也會推論出Never型別
+ * 3. Never型別本身包含在所有型別集裡面 Never型別也是屬於Never型別本身的集合
+ * 4. 任何集合型別都有涵蓋例外事件發生的可能
+ * 5. 任何與Never型別交集的結果都是Never型別
+ */
+
+type T = number & never; // T = never型別
+type N = never & never; // T = never型別
+
+
+/**Any型別
+ * 1. 所有型別的聯集
+ * 2. 盡量避免使用
+ * 3. 任何型別與Any型別發生聯集就等於Any型別
+ * 
+ * 使用情境
+ * 1. 空陣列
+ * 2. 會回傳Any型別結果的函式或方法 ex:JSON.parse();
+ * 3. 直接註記變數或表達式為Any型別
+ */
+
+/**Unknown型別
+ * 1. 建立在某變數是未知型別的前提下使用
+ * 2. 任何非Any型別的型別與Unknown聯集複合 最後都會變成Unknown型別
+ */
+type Unk = number | unknown //unknown
+type UnkA = any | unknown //any
