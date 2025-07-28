@@ -226,7 +226,7 @@ now instanceof Date;
  * UserAccount必須要有PersonalInfo and AccountInfo的型別的屬性
  */
 
-type PersonalInfo = {
+type PersonalInfoo = {
   name:string,
   age:number,
   interest:string[]

@@ -4,6 +4,7 @@
  * 2. 類型可以了解哪些值與變量有關
  *
  * 類型是一個標籤 描述了一個值的屬性和方法
+ * 經過推論的變數就會只固定接收該型別下的任何值(固定性)
  */
 
 
@@ -15,6 +16,11 @@ let createboolean: Boolean = new Boolean(); // 返回一個boolean對象
 let createByNewBoolean: boolean = Boolean(1); //直接調用boolean返回一個boolean類型
 let valu3: number = 133557453535242425522; //要指定bigint型別 結尾要加上n
 let valu4: symbol = Symbol("description"); //代表一個唯一的常量值
+
+/**延遲性指派 */
+let delayUnsign: number | undefined; //變數在位指派值的時候皆為undefined 所以要加上undefined型別避免報錯
+console.log(delayUnsign)
+delayUnsign = 12;
 
 /**
  * number:二進制
@@ -178,6 +184,9 @@ employee = {
     age: 25,
     jobtitle: "developer",
 };
+
+/**使用Object.freeze 定義常數物件 讓整個物件為ReadOnly狀態*/
+const freezeObj = Object.freeze({ foo: 123, bar: "string" })
 
 /**明確指定object對象的屬性 */
 let employee1: {
@@ -550,4 +559,23 @@ type Action = (NewItem | RemoveItem | CompleteItem | UndoItem)
 const CompleteAction: Action = {
     type: 'COMPLETE_ITEM',
     payload: { id: 1 }
+}
+
+//用統一的狀態管理函式 處理不同的動作(action)
+function dispatch(action:Action){
+    switch(action.type){
+        case "NEW_ITEM":
+            console.log("add new item")
+            break;
+        case "REMOVE_ITEM":
+            console.log("remove old item")
+            break;
+        case "COMPLETE_ITEM":
+            console.log("complete item")
+            break;
+        case "UNDO_ITEM":
+            console.log("undo item")
+            break
+        
+    }
 }

@@ -95,6 +95,8 @@ console.log(TestPublic.Id);
  * 允許一個類的屬性和方法在同一個類和子類中被訪問
  * 當一個類(子類)繼承另一個類(父類) 他就是父類的一個子類
  * 無法從其他地方訪問受保護的屬性或方法
+ * 
+ * get / set : 屬於物件中的存取方法 動態模擬物件屬性存值與取值的行為
  */
 
 class PersonProtected {
@@ -103,10 +105,31 @@ class PersonProtected {
   constructor(ssn: string) {
     this.ssn = ssn;
   }
-  getFullName() {
+
+  // 加入get關鍵字 就可以讓方法變成用物件屬性的方式呼叫 
+  // 加入get關鍵字的方法 該方法不可以有參數
+  get getFullName() {
     return `${this.ssn}`;
   }
+
+  //加入set關鍵字 就可以讓方法變成用物件屬性的方式呼叫 並且改變值
+  set changeSSN(input:string){
+    this.ssn = input
+  }
 }
+
+const protectedObj = new PersonProtected("123456")
+
+class childrenPersonProtected extends PersonProtected{
+  constructor(ssn:string){
+    super(ssn)
+    this.ssn = ssn
+  }
+}
+protectedObj.getFullName
+protectedObj.changeSSN = "233"
+
+
 
 /**
  * readonly:允許標記一個類的屬性為不可變
