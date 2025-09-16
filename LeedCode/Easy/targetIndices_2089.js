@@ -7,3 +7,4 @@ const targetIndices = function (nums, target) {
     return ans
 
 };
+
